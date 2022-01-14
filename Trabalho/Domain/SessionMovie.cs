@@ -11,7 +11,7 @@ namespace Trabalho.WebApi.Dominio
 
         public DateTime Date { get; private set; }
 
-        public DateTime TimeStart { get; }
+        public DateTime TimeStart { get; private set; }
 
         public int Seats { get; private set; }
 

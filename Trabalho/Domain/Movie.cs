@@ -15,10 +15,10 @@ namespace Trabalho.WebApi.Dominio
             Synopsis = synopsis;
         }
 
-        public Guid Id { get; }
-        public string Title { get; }
-        public DateTime Duration { get; }
-        public string Synopsis { get; }
+        public Guid Id { get; private set; }
+        public string Title { get; private set; }
+        public DateTime Duration { get; private set; }
+        public string Synopsis { get; private set; }
 
         public static Result<Movie> Criar(string title, DateTime duration, string synopsis)
         {
