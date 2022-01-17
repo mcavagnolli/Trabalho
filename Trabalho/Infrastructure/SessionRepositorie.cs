@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Trabalho.WebApi.Dominio;
+using Trabalho.Dominio;
 
-namespace Trabalho.WebApi.Infrastructure
+namespace Trabalho.Infrastructure
 {
     public sealed class SessionRepositorie
     {
@@ -30,6 +31,20 @@ namespace Trabalho.WebApi.Infrastructure
         public async Task CommitAsync(CancellationToken cancellationToken = default)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<SessionMovie>> RecuperarTodas(CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Session.Include(c => c.Tickets).ToListAsync(cancellationToken);
+        }
+
+        public void Atualizar(SessionMovie session)
+        {
+        }
+
+        public void Remover(SessionMovie removerSessao)
+        {
+            _dbContext.Session.Remove(removerSessao);
         }
     }
 }

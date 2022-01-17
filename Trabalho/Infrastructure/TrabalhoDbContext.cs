@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Trabalho.WebApi.Dominio;
+using Trabalho.Dominio;
 
-namespace Trabalho.WebApi.Infrastructure
+namespace Trabalho.Infrastructure
 {
     public class TrabalhoDbContext : DbContext
     {
@@ -16,5 +16,6 @@ namespace Trabalho.WebApi.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
+
     }
 }

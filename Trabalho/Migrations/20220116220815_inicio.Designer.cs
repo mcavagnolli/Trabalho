@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Trabalho.WebApi.Infrastructure;
+using Trabalho.Infrastructure;
 
 namespace Trabalho.Migrations
 {
     [DbContext(typeof(TrabalhoDbContext))]
-    [Migration("20220114011520_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220116220815_inicio")]
+    partial class inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,14 +21,14 @@ namespace Trabalho.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Trabalho.WebApi.Dominio.Movie", b =>
+            modelBuilder.Entity("Trabalho.Dominio.Movie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Duration")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Duration")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Synopsis")
                         .HasColumnType("nvarchar(max)");
@@ -41,7 +41,7 @@ namespace Trabalho.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("Trabalho.WebApi.Dominio.SessionMovie", b =>
+            modelBuilder.Entity("Trabalho.Dominio.SessionMovie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,21 +53,23 @@ namespace Trabalho.Migrations
                     b.Property<Guid>("FilmeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<int>("Seats")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeStart")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Session");
                 });
 
-            modelBuilder.Entity("Trabalho.WebApi.Dominio.Ticket", b =>
+            modelBuilder.Entity("Trabalho.Dominio.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,9 +84,38 @@ namespace Trabalho.Migrations
                     b.Property<Guid>("SessionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("SessionMovieId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("SessionMovieId");
+
                     b.ToTable("Ticket");
+                });
+
+            modelBuilder.Entity("Trabalho.Dominio.SessionMovie", b =>
+                {
+                    b.HasOne("Trabalho.Dominio.Movie", null)
+                        .WithMany("Sessions")
+                        .HasForeignKey("MovieId");
+                });
+
+            modelBuilder.Entity("Trabalho.Dominio.Ticket", b =>
+                {
+                    b.HasOne("Trabalho.Dominio.SessionMovie", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("SessionMovieId");
+                });
+
+            modelBuilder.Entity("Trabalho.Dominio.Movie", b =>
+                {
+                    b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("Trabalho.Dominio.SessionMovie", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }
