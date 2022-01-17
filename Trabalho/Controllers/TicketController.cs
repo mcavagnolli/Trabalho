@@ -51,11 +51,11 @@ namespace Trabalho.Controllers
             var ticketSession = await _sessionRepositorie.RecuperarPorIdAsync(guid, cancellationToken);
 
             if (ticketSession == null)
-                return NotFound("Session not found");
+                return NotFound("Sessão não encontrada");
 
-            var soldTickets = ticketSession.Tickets.Select(x => x.Amount).Sum();
+            var soldi = ticketSession.Tickets.Select(x => x.Amount).Sum();
 
-            var ticket = Ticket.Criar(newTicketInputModel, ticketSession.Seats, soldTickets);
+            var ticket = Ticket.Criar(newTicketInputModel, ticketSession.Seats, soldi);
             if (ticket.IsFailure)
             {
                 return BadRequest(ticket.Error);

@@ -9,7 +9,7 @@ namespace Trabalho.Models
     public sealed class UpdateSessionInputModel
     {
         [Required]
-        public string MovieId { get; set; }
+        public string FilmeId { get; set; }
         [Required]
         public string Date { get; set; }
         public int Seats { get; set; }

@@ -41,7 +41,7 @@ namespace Trabalho.Controllers
                 if (!Guid.TryParse(movie, out var movieGuid))
                     return BadRequest("Problema ao converter ID");
 
-                session = session.Where(sessao => sessao.FilmeId == movieGuid);
+                session = session.Where(session => session.FilmeId == movieGuid);
             }
 
             if (!string.IsNullOrEmpty(date))

@@ -35,7 +35,7 @@ namespace Trabalho.Dominio
 
         public void Update(UpdateSessionInputModel inputModel)
         {
-            FilmeId = Guid.Parse(inputModel.MovieId);
+            FilmeId = Guid.Parse(inputModel.FilmeId);
             Date = DateTime.Parse(inputModel.Date);
             Seats = inputModel.Seats;
             Price = inputModel.Price;
