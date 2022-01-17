@@ -37,9 +37,9 @@ namespace Trabalho.Controllers
             if (!Guid.TryParse(id, out var guid))
                 return BadRequest("Problema ao converter ID");
 
-            var ingresso = await _ticketRepositorie.RecuperarPorIdAsync(guid, cancellationToken);
+            var ticket = await _ticketRepositorie.RecuperarPorIdAsync(guid, cancellationToken);
 
-            return Ok(ingresso);
+            return Ok(ticket);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace Trabalho.Controllers
             await _ticketRepositorie.InserirAsync(ticket.Value, cancellationToken);
             await _ticketRepositorie.CommitAsync(cancellationToken);
 
-            return CreatedAtAction("RecuperarPorId", new { id = ticket.Value.Id }, ticket.Value.Id);
+            return Ok(ticket.Value);
         }
     }
 }

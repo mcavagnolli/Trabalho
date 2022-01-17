@@ -24,9 +24,9 @@ namespace Trabalho.Controllers
         {
             if (!Guid.TryParse(id, out var guid))
                 return BadRequest("Id inválido");
+
             var movie = await _movieRepositorie.RecuperarPorIdAsync(guid, cancellationToken);
-            if (movie == null)
-                return NotFound();
+
             return Ok(movie);
         }
 
@@ -51,7 +51,7 @@ namespace Trabalho.Controllers
             await _movieRepositorie.InserirAsync(newMovie.Value, cancellationToken);
             await _movieRepositorie.CommitAsync(cancellationToken);
 
-            return CreatedAtAction("GetById", new { id = newMovie.Value.Id }, newMovie.Value.Id);
+            return Ok(newMovie.Value);
         }
 
         [HttpPut("{id}")]

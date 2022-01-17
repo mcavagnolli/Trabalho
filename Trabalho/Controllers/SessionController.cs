@@ -49,7 +49,7 @@ namespace Trabalho.Controllers
                 if (!DateTime.TryParse(date, out var datetime))
                     return BadRequest();
 
-                session = session.Where(sessao => sessao.Date == datetime);
+                session = session.Where(session => session.Date == datetime);
             }
 
             return Ok(session);
@@ -61,16 +61,16 @@ namespace Trabalho.Controllers
             if (!Guid.TryParse(newSessionInputModel.FilmeId, out var guid))
                 return BadRequest("Problema ao converter ID");
 
-            var sessao = SessionMovie.Criar(Guid.Parse(newSessionInputModel.FilmeId), DateTime.Parse(newSessionInputModel.Date),
+            var session = SessionMovie.Criar(Guid.Parse(newSessionInputModel.FilmeId), DateTime.Parse(newSessionInputModel.Date),
                 newSessionInputModel.Seats, newSessionInputModel.Price);
 
-            if (sessao.IsFailure)
-                return BadRequest(sessao.Error);
+            if (session.IsFailure)
+                return BadRequest(session.Error);
 
-            await _sessionRepositorie.InserirAsync(sessao.Value, cancellationToken);
+            await _sessionRepositorie.InserirAsync(session.Value, cancellationToken);
             await _sessionRepositorie.CommitAsync(cancellationToken);
 
-            return CreatedAtAction("RecuperarPorId", new { id = sessao.Value.Id }, sessao.Value.Id);
+            return Ok(session.Value);
         }
 
         [HttpPut("{id}")]
